@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from ingredients.models import Ingredient
+
 
 class Recipe(models.Model):
     title = models.CharField(max_length=255)
@@ -9,7 +11,7 @@ class Recipe(models.Model):
     cooking_time = models.PositiveSmallIntegerField(default=0)
     image = models.ImageField(upload_to='images/', default='default_image.png', blank=True, verbose_name='Изображение')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    # ingredients = models.ManyToManyField(Ingredient)
+    ingredients = models.ManyToManyField(Ingredient)
 
     def __str__(self):
         return self.title
