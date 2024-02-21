@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Рецепт {{ recipe.title }}</h1>
+<p>{{ recipe.description }}</p>
+<ol>
+    {% for step in recipe.cooking_steps %}
+        <li>{{ step }}</li>
+    {% endfor %}
+</ol>
+<p>Время приготовления: {{ recipe.cooking_time }} минут</p>
+    {% if recipe.image %}
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" width="320" height="320">
+    {% else %}
+        <p>Изображение пока не загружено</p>
+    {% endif %}
+{% endblock %}
