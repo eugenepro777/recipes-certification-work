@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Это главная страница сайта с кулинарными рецептами.</h1>
+    <p>Приветствуем Вас на сайте 'Ни грамма мимо'</p>
+    {% for recipe in recipes %}
+        <div>
+            <h2>{{ recipe.title }}</h2>
+            <p>{{ recipe.description|truncatewords:30|linebreaks }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
