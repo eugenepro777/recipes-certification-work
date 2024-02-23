@@ -38,7 +38,7 @@ class Recipe(models.Model):
     image = models.ImageField(upload_to='images/', default='default_image.png', blank=True, verbose_name='Изображение')
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     ingredients = models.ManyToManyField(Ingredient, related_name='recipes', verbose_name='Ингредиенты')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         db_table = 'recipe'
@@ -47,14 +47,3 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
-
-
-# class RecipeCategory(models.Model):
-#     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-#     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-#
-#     class Meta:
-#         unique_together = ('recipe', 'category')
-#
-#     def __str__(self):
-#         return f'{self.recipe.title} - {self.category.name}'
