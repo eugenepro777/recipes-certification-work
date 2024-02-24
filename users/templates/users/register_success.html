@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Добро пожаловать кулинар!{% endblock %}
+
+{% block content %}
+  <h1>Приветствую {{ new_user.first_name }}!</h1>
+  <p>
+    Ваш аккаунт успешно создан. Для входа нажмите на ссылку.
+     <a href='{% url "login" %}'>Войти в аккаунт</a>.
+  </p>
+{% endblock %}
