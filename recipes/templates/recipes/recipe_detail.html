@@ -23,12 +23,12 @@
             <ol>
                     <li>{{ recipe.cooking_steps|linebreaks }}</li>
             </ol>
-        </div>
             {% if recipe.author == user or user.is_staff %}
                 <div class="col-4">
-                    <a class="btn btn-outline-info" href="{% url 'edit_recipe' recipe.id %}">Изменить</a>
+                    <a class="btn btn-outline-info" href="{% url 'edit_recipe' recipe.id %}">Редактировать рецепт</a>
                 </div>
             {% endif %}
+        </div>
     </div>
 
 {% endblock %}
