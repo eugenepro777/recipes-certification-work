@@ -1,12 +1,24 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <h1>Это главная страница сайта с кулинарными рецептами.</h1>
-    <p>Приветствуем Вас на сайте 'Ни грамма мимо'</p>
+    <h1 class="page-header">Приветствуем Вас на сайте домашних рецептов</h1>
+    <h1></h1>
+    <p class="h2">На главной странице представлены лишь некоторые из рецептов</p>
+
+        <div class="card">
     {% for recipe in recipes %}
-        <div>
-            <h2>{{ recipe.title }}</h2>
-            <p>{{ recipe.description|truncatewords:30|linebreaks }}</p>
-        </div>
+            {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+            {% else %}
+                <img src="{% static 'img/no_image.png' %}" class="card-img-top" alt="{{ recipe.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ recipe.title }}</h5>
+                <p class="card-text">{{ recipe.description|truncatewords:30|linebreaks }}</p>
+                <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary">Подробнее</a>
+            </div>
     {% endfor %}
+        </div>
+
 {% endblock %}

@@ -13,16 +13,9 @@
             <h5 class="card-title">{{ recipe.title }}</h5>
             <p class="card-text">{{ recipe.description }}</p>
             <p class="card-text">Время приготовления: {{ recipe.cooking_time }} мин</p>
-            <p class="card-text">Ингредиенты:</p>
-            <ul>
-                {% for ingredient in recipe.ingredients.all %}
-                    <li>{{ ingredient.name }} - {{ ingredient.quantity }}</li>
-                {% endfor %}
-            </ul>
-            <p class="card-text">Шаги приготовления:</p>
-            <ol>
-                    <li>{{ recipe.cooking_steps|linebreaks }}</li>
-            </ol>
+            <p class="card-text">Ингредиенты:  {{ recipe.ingredients }} </p>
+            <p class="card-text">Шаги приготовления: {{ recipe.cooking_steps|linebreaks }}</p>
+
             {% if recipe.author == user or user.is_staff %}
                 <div class="col-4">
                     <a class="btn btn-outline-info" href="{% url 'edit_recipe' recipe.id %}">Редактировать рецепт</a>

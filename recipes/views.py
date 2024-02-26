@@ -1,16 +1,18 @@
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from .models import Recipe
+from django.contrib.auth.decorators import login_required
+
+from .models import Recipe, Category
 from .forms import RecipeForm
-from django.shortcuts import render
 
 
 def index(request):
+    categories = Category.objects.all()
     recipes = Recipe.objects.order_by('?')[:5]
-    return render(request, 'home/index.html', {'recipes': recipes})
+    return render(request, 'home/index.html', {'categories': categories, 'recipes': recipes})
 
 
 def recipe_detail(request, recipe_id):
@@ -18,40 +20,24 @@ def recipe_detail(request, recipe_id):
     return render(request, 'recipes/recipe_detail.html', {'recipe': recipe})
 
 
-def recipe_list(request):
-    recipes = get_list_or_404(Recipe)
+def category_recipes(request, category_id):
+    recipes = Recipe.objects.filter(category_id=category_id)
     return render(request, 'recipes/recipe_list.html', {'recipes': recipes})
 
 
-def registration(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            # 1
-            messages.success(request, 'Вы успешно зарегистрировались! Теперь вы можете войти.')
-            request.session['show_registration_message'] = True
-            return redirect('login')
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/registration.html', {'form': form})
+def recipe_list(request):
+    recipes = Recipe.objects.all()
+    return render(request, 'recipes/recipe_list.html', {'recipes': recipes})
 
 
-def login(request):
-    show_registration_message = request.session.pop('show_registration_message', False)
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            return redirect('index')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'registration/login.html',
-                  {'form': form, 'show_registration_message': show_registration_message})
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'recipes/category_list.html', {'categories': categories})
 
 
-@login_required
-def logout(request):
-    return render(request, 'recipes/logout.html')
+def category_detail(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    return render(request, 'recipes/category_list.html', {'category': category})
 
 
 @login_required
@@ -59,11 +45,14 @@ def add_recipe(request):
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            recipe = form.save(commit=False)
+            recipe.author = request.user
+            recipe.save()
             return redirect('recipe_list')
     else:
         form = RecipeForm()
-    return render(request, 'recipes/add_recipe.html', {'form': form})
+    return render(request, 'recipes/add_recipe.html',
+                  {'form': form})
 
 
 @login_required
@@ -77,3 +66,34 @@ def edit_recipe(request, recipe_id):
     else:
         form = RecipeForm(instance=recipe)
     return render(request, 'recipes/edit_recipe.html', {'form': form, 'recipe': recipe})
+
+
+# class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+#     model = Recipe
+#     success_url = reverse_lazy('recipes-home')
+#
+#     def test_func(self):
+#         recipe = self.get_object()
+#         return self.request.user == recipe.author
+#
+#
+# class RecipeCreateView(LoginRequiredMixin, CreateView):
+#     model = Recipe
+#     fields = ['title', 'description', 'cooking_steps', 'cooking_time', 'image']
+#
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)
+#
+#
+# class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+#     model = Recipe
+#     fields = ['title', 'description', 'cooking_steps', 'image']
+#
+#     def test_func(self):
+#         recipe = self.get_object()
+#         return self.request.user == recipe.author
+#
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)

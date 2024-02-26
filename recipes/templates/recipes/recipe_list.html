@@ -1,21 +1,31 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Рецепты{% endblock %}
 
 {% block content %}
     <h1>Список рецептов</h1>
-    <ul>
+
+    <div class="row">
         {% for recipe in recipes %}
-            <li>
-                <a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.title }}</a><br>
-                {% if recipe.image %}
-                    <img src="{{ pecipe.image.url }}" alt="{{ recipe.title }}" width="320" height="320"><br>
-                {% else %}
-                    <p></p>
-                {% endif %}
-            </li>
+            <div class="col-md-4">
+                <div class="card">
+                    {% if recipe.image %}
+                        <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+                    {% else %}
+                        <img src="{% static 'img/no_image.png' %}" class="card-img-top" alt="{{ recipe.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                        <p class="card-text">{{ recipe.description }}</p>
+                        <p class="card-text">{{ recipe.category }}</p>
+                        <p class="card-text">Время приготовления: {{ recipe.cooking_time }} мин</p>
+                        <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
         {% empty %}
-            <li>Пока рецептов нет</li>
+            <p>Пока рецептов нет</p>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}
