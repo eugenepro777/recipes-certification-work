@@ -4,7 +4,7 @@ from .models import Profile
 
 
 class UserRegistrationForm(forms.ModelForm):
-    username = forms.CharField(max_length=255, label='Имя пользователя')  # !
+    # username = forms.CharField(max_length=255, label='Имя пользователя')  # !
     password = forms.CharField(widget=forms.PasswordInput, label='Пароль')
     confirm_password = forms.CharField(widget=forms.PasswordInput, label='Подтвердите пароль')
 
