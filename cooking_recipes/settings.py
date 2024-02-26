@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'crispy_forms',
 
     'recipes.apps.RecipesConfig',
     'users.apps.UsersConfig',
@@ -146,6 +145,6 @@ LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
 # для отображения форм в bootstrap стилях
-CRISPY_TEMPLATE_PACK = 'bootstrap5'
+# CRISPY_TEMPLATE_PACK = 'bootstrap5'
 #  !
-CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
+# CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
