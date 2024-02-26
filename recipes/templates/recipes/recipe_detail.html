@@ -1,17 +1,34 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>Рецепт {{ recipe.title }}</h1>
-<p>{{ recipe.description }}</p>
-<ol>
-    {% for step in recipe.cooking_steps %}
-        <li>{{ step }}</li>
-    {% endfor %}
-</ol>
-<p>Время приготовления: {{ recipe.cooking_time }} минут</p>
-    {% if recipe.image %}
-        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" width="320" height="320">
-    {% else %}
-        <p>Изображение пока не загружено</p>
-    {% endif %}
+
+    <div class="card">
+        {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
+        {% else %}
+            <img src="{% static 'img/no_image.png' %}" class="card-img-top" alt="{{ recipe.title }}">
+        {% endif %}
+        <div class="card-body">
+            <h5 class="card-title">{{ recipe.title }}</h5>
+            <p class="card-text">{{ recipe.description }}</p>
+            <p class="card-text">Время приготовления: {{ recipe.cooking_time }} мин</p>
+            <p class="card-text">Ингредиенты:</p>
+            <ul>
+                {% for ingredient in recipe.ingredients.all %}
+                    <li>{{ ingredient.name }} - {{ ingredient.quantity }}</li>
+                {% endfor %}
+            </ul>
+            <p class="card-text">Шаги приготовления:</p>
+            <ol>
+                    <li>{{ recipe.cooking_steps|linebreaks }}</li>
+            </ol>
+        </div>
+            {% if recipe.author == user or user.is_staff %}
+                <div class="col-4">
+                    <a class="btn btn-outline-info" href="{% url 'edit_recipe' recipe.id %}">Изменить</a>
+                </div>
+            {% endif %}
+    </div>
+
 {% endblock %}
