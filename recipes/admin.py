@@ -12,16 +12,6 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     list_display = ['name']
     list_filter = ['name']
-    # fieldsets = [
-    #     (
-    #         'Рецепты',
-    #         {
-    #             'description': 'Рецепты из категории',
-    #             'fields': ['recipes__title'],
-    #         }
-    #     ),
-    #
-    # ]
 
 
 @admin.register(Recipe)
@@ -29,7 +19,7 @@ class RecipeAdmin(admin.ModelAdmin):
     """Для списка рецептов"""
     prepopulated_fields = {'slug': ('title',)}
     list_display = ['display_id', 'title', 'category', 'cooking_time', 'author']
-    list_filter = ['cooking_steps', 'ingredients']
+    list_filter = ['ingredients', 'cooking_time']
     readonly_fields = ['preview']
     search_fields = ['description']
     search_help_text = 'Поиск рецепта по описанию'
@@ -95,7 +85,7 @@ class RecipeAdmin(admin.ModelAdmin):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="recipe.csv"'
         writer = csv.writer(response)
-        writer.writerow(['Номер', 'Название', 'Описание', 'Шаги приготовления', 'Категория', 'Время приготовления'])
+        writer.writerow(['Номер', 'Название', 'Описание', 'Шаги приготовления', 'Ингредиенты', 'Категория', 'Время приготовления'])
 
         for recipe in queryset:
             writer.writerow(
@@ -103,6 +93,7 @@ class RecipeAdmin(admin.ModelAdmin):
                  recipe.title,
                  recipe.description,
                  recipe.cooking_steps,
+                 recipe.ingredients,
                  recipe.category,
                  recipe.cooking_time]
             )
