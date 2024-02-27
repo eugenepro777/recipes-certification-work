@@ -2,20 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# class Ingredient(models.Model):
-#     name = models.CharField(max_length=120, verbose_name='Название')
-#     quantity = models.CharField(max_length=80, verbose_name='Количество')
-#     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
-#
-#     class Meta:
-#         db_table = 'ingredient'
-#         verbose_name = 'Ингредиент'
-#         verbose_name_plural = 'Ингредиенты'
-#
-#     def __str__(self):
-#         return self.name
-
-
 class Category(models.Model):
     name = models.CharField(max_length=120, unique=True, verbose_name='Название')
     slug = models.SlugField(max_length=200, unique=True, blank=True, null=True, verbose_name='URL')
