@@ -3,12 +3,6 @@ from django import forms
 from .models import Recipe, Category
 
 
-# class IngredientForm(forms.ModelForm):
-#     class Meta:
-#         model = Ingredient
-#         fields = ['name', 'quantity']
-
-
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
@@ -16,6 +10,7 @@ class RecipeForm(forms.ModelForm):
         widgets = {
             'cooking_steps': forms.Textarea(attrs={'rows': 6}),
         }
+
     category = forms.ModelChoiceField(queryset=Category.objects.all())
 
     def __init__(self, *args, **kwargs):
