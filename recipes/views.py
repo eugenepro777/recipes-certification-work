@@ -1,8 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
 from django.contrib.auth.decorators import login_required
 
 from .models import Recipe, Category
@@ -66,34 +62,3 @@ def edit_recipe(request, recipe_id):
     else:
         form = RecipeForm(instance=recipe)
     return render(request, 'recipes/edit_recipe.html', {'form': form, 'recipe': recipe})
-
-
-# class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-#     model = Recipe
-#     success_url = reverse_lazy('recipes-home')
-#
-#     def test_func(self):
-#         recipe = self.get_object()
-#         return self.request.user == recipe.author
-#
-#
-# class RecipeCreateView(LoginRequiredMixin, CreateView):
-#     model = Recipe
-#     fields = ['title', 'description', 'cooking_steps', 'cooking_time', 'image']
-#
-#     def form_valid(self, form):
-#         form.instance.author = self.request.user
-#         return super().form_valid(form)
-#
-#
-# class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-#     model = Recipe
-#     fields = ['title', 'description', 'cooking_steps', 'image']
-#
-#     def test_func(self):
-#         recipe = self.get_object()
-#         return self.request.user == recipe.author
-#
-#     def form_valid(self, form):
-#         form.instance.author = self.request.user
-#         return super().form_valid(form)
