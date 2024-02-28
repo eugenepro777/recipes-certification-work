@@ -17,7 +17,7 @@
                     {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.title }}</h5>
-                        <p class="card-text">{{ recipe.description }}</p>
+                        <p class="card-text">{{ recipe.description|truncatewords:30|linebreaks }}</p>
                         <p class="card-text">{{ recipe.category }}</p>
                         <p class="card-text">Время приготовления: {{ recipe.cooking_time }} мин</p>
                         <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary">Подробнее</a>

@@ -11,7 +11,7 @@
         {% endif %}
         <div class="card-body">
             <h5 class="card-title">{{ recipe.title }}</h5>
-            <p class="card-text">{{ recipe.description }}</p>
+            <p class="card-text">{{ recipe.description|truncatewords:30|linebreaks }}</p>
             <p class="card-text">Время приготовления: {{ recipe.cooking_time }} мин</p>
             <p class="card-text">Ингредиенты:  {{ recipe.ingredients }} </p>
             <p class="card-text">Шаги приготовления: {{ recipe.cooking_steps|linebreaks }}</p>
