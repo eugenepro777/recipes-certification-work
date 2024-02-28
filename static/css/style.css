@@ -1,3 +1,9 @@
 body {
     background: linear-gradient(135deg, #F9F9F9, #FFEEDD);
 }
+.card-img-top {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover; /* свойство для сохранения пропорций изображения и заполнения всей области изображения */
+}
+
