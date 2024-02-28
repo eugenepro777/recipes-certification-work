@@ -8,7 +8,7 @@
 
     <div class="row">
         {% for recipe in recipes %}
-            <div class="col-md-4 mb-3">
+            <div class="col-md-4 mb-5">
                 <div class="card h-100">
                     {% if recipe.image %}
                         <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">
@@ -25,7 +25,17 @@
                 </div>
             </div>
         {% empty %}
-            <p>Пока рецептов нет</p>
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body d-flex justify-content-center">
+                      <p class="card-text text-primary"><b>Пока рецептов нет</b></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
