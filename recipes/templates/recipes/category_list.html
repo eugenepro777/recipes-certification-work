@@ -1,17 +1,24 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Категории{% endblock %}
 
 {% block content %}
-    <h1>Рецепты по категориям</h1>
-    <ul>
-        {% for category in categories %}
-        <li>
-            <a href="{% url 'category_recipes' category.id %}">
-                {{ category.name }}
-            </a>
-        </li>
-        {% endfor %}
-
-    </ul>
+    <h1 class="d-flex justify-content-between">Рецепты по категориям</h1>
+    <div class="d-flex justify-content-between">
+        <div class="col-md-4 mt-3 mb-3">
+            <div class="card">
+        <ul class="list-group">
+            {% for category in categories %}
+            <li class="list-group-item">
+                <a class="list-group-item list-group-item-action text-primary"
+                   href="{% url 'category_recipes' category.id %}">
+                   <b>{{ category.name }}</b>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+            </div>
+        </div>
+    </div>
 {% endblock %}
