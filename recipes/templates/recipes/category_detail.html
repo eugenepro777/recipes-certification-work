@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Категории{% endblock %}
 
@@ -8,7 +9,6 @@
         {% for recipe in recipes %}
             <li>
                 <a href="{% url 'recipe_detail' recipe.id %}">{{ recipe.title }}</a><br>
-
             </li>
         {% empty %}
             <li>Пока рецептов нет</li>
