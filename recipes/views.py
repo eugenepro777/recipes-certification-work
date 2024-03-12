@@ -43,6 +43,8 @@ def add_recipe(request):
         if form.is_valid():
             recipe = form.save(commit=False)
             recipe.author = request.user
+            category = form.cleaned_data['category']
+            recipe.category = category
             recipe.save()
             return redirect('recipe_list')
     else:
@@ -57,8 +59,13 @@ def edit_recipe(request, recipe_id):
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES, instance=recipe)
         if form.is_valid():
-            form.save()
+            recipe = form.save(commit=False)
+            recipe.author = request.user
+            category = form.cleaned_data['category']
+            recipe.category = category
+            recipe.save()
             return redirect('recipe_detail', recipe_id=recipe_id)
     else:
         form = RecipeForm(instance=recipe)
-    return render(request, 'recipes/edit_recipe.html', {'form': form, 'recipe': recipe})
+    return render(request, 'recipes/edit_recipe.html',
+                  {'form': form, 'recipe': recipe})
