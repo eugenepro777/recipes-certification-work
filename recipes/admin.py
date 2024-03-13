@@ -1,7 +1,6 @@
 import csv
 from django.contrib import admin
 from django.http import HttpResponse
-from django.db import models
 from django.utils.safestring import mark_safe
 
 from .models import Recipe, Category
