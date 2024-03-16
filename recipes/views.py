@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
@@ -22,8 +23,17 @@ def category_recipes(request, category_id):
 
 
 def recipe_list(request):
-    recipes = Recipe.objects.all()
-    return render(request, 'recipes/recipe_list.html', {'recipes': recipes})
+    recipes = Recipe.objects.order_by('id')
+    per_page = 6
+    paginator = Paginator(recipes, per_page)
+    page_number = request.GET.get('page')
+    try:
+        recipes_paginator = paginator.page(page_number)
+    except PageNotAnInteger:
+        recipes_paginator = paginator.page(1)
+    except EmptyPage:
+        recipes_paginator = paginator.page(paginator.num_pages)
+    return render(request, 'recipes/recipe_list.html', {'recipes': recipes_paginator})
 
 
 def category_list(request):
