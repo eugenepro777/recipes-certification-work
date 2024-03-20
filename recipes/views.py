@@ -19,7 +19,16 @@ def recipe_detail(request, recipe_id):
 
 def category_recipes(request, category_id):
     recipes = Recipe.objects.filter(category_id=category_id)
-    return render(request, 'recipes/recipe_list.html', {'recipes': recipes})
+    per_page = 6
+    paginator = Paginator(recipes, per_page)
+    page_number = request.GET.get('page')
+    try:
+        recipes_paginator = paginator.page(page_number)
+    except PageNotAnInteger:
+        recipes_paginator = paginator.page(1)
+    except EmptyPage:
+        recipes_paginator = paginator.page(paginator.num_pages)
+    return render(request, 'recipes/recipe_list.html', {'recipes': recipes_paginator})
 
 
 def recipe_list(request):
