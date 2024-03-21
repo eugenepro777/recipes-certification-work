@@ -14,6 +14,7 @@
                 <a class="list-group-item list-group-item-action text-primary"
                    href="{% url 'category_recipes' category.id %}">
                    <b>{{ category.name }}</b>
+                <span class="badge badge-primary badge-pill">{{ category.recipe_set.count }}</span>
                 </a>
             </li>
             {% endfor %}
